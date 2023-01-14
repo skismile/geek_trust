@@ -1,41 +1,45 @@
-import { Box, Card, SimpleGrid,Flex } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react'
+import { Box, Card, SimpleGrid,Flex, Input, Button } from '@chakra-ui/react';
+import React, { useContext, useEffect, useState } from 'react'
 import { getData } from '../Api/api'
-import ProductCart from '../Components/ProductCard';
-
-const Product = () => {
-const [products,setProducts]=useState([]);
 
 
+import SideFilterBar from '../Components/SideFilterBar';
+import { GETDATA } from '../Context/Actiontype';
+import { AppContext } from '../Context/AppContext';
+import Products from './Products';
+const ProductListing = () => {
+
+const {dispatch,state}=useContext(AppContext)
+console.log(state)
 useEffect(()=>{
 
 getData().then((res)=>{
-  setProducts(res)
-  console.log(res);
+ 
+  dispatch({type:GETDATA,payload:res})
 })
 
 },[])
 
   return (
     <Box w="90%" m={"auto"} border={"1px solid red"}>
-
-<Flex>
-<Box border={"1px solid green"} w="40%">
+<Flex w="100%" border={"1px solid red"} h="50px" justifyContent={"right"} alignItems="center" >
   
-</Box>
-<SimpleGrid columns={3} spacing={10}>
+  <Flex ml={10}w="50%" gap={5}>
 
-{
-  products?.map((ele,i)=>{
-    return <ProductCart key={ele.id} {...ele} />
-    
-  })
-}
-  </SimpleGrid>
+<Input placeholder='Search for products..' w="70%" variant='flushed' borderBottom={"2px solid gray"} />
+<Button onClick={()=>dispatch({type:"hello"})}><i className="fa-solid fa-magnifying-glass"></i></Button>
+  </Flex>
+
+</Flex>
+<Flex>
+<Box border={"1px solid green"} position="relative" w="30%">
+  <SideFilterBar/>
+</Box>
+<Products />
 
     </Flex>
     </Box>
   )
 }
 
-export default Product
+export default ProductListing
