@@ -1,26 +1,56 @@
 import { Card, CardHeader, CardBody, CardFooter,Heading,Stack,StackDivider,Box,Text,Divider,ButtonGroup,Button,Image, Flex } from '@chakra-ui/react'
-import { useContext } from 'react'
-import { ADDTOCART } from '../Context/Actiontype'
+import { useContext, useState } from 'react'
+import { ADDTOCART, CARTITEMDECREMENT, CARTITEMINCREMENT } from '../Context/Actiontype'
 import { AppContext } from '../Context/AppContext'
+import CartIncrementDecrement from './CartIncrementDecrement'
 
 
-export default function ProductCard(ele){
+export default function ProductCard(item){
 
 const {dispatch,state}=useContext(AppContext)
+const [quantity,setQuantity]=useState(1)
+const [currentItem,setCurrentItem]=useState()
 const {cart}=state
-console.log(cart)
+// console.log(cart)
+
+const find=()=>{
+let get=cart?.filter((ele)=>{
+// console.log(ele.id,item.id);
+return ele.id==item.id
+
+})
+
+
+
+return get.length==0?true:false
+// console.log("find",get)
+
+}
+
+const getCartItem=()=>{
+  let get=cart?.filter((ele)=>{
+    // console.log(ele.id,item.id);
+    return ele.id==item.id
+    
+    })
+    // console.log(get);
+    return get
+
+
+
+}
 return <Card maxW='sm'>
 <CardBody>
   <Image
-    src={ele.imageURL}
+    src={item.imageURL}
     alt='Green double couch with wooden legs'
     borderRadius='lg'
   />
   <Stack mt='6' spacing='3'>
-    <Heading size='md'>{ele.name}</Heading>
+    <Heading size='md'>{item.name}</Heading>
    
     <Text color='blue.600' fontSize='2xl'>
-      ${ele.price}
+      ${item.price}
     </Text>
 
   </Stack>
@@ -29,19 +59,13 @@ return <Card maxW='sm'>
 <CardFooter>
   <ButtonGroup spacing='2'>
 
-    <Button variant='ghost' colorScheme='blue' onClick={()=>dispatch({type:ADDTOCART,payload:ele})}>
-      Add to cart
-    </Button>
-    <Flex bg="blackAlpha.500" alignItems={"center"} >
-
-    <Button variant='ghost' color={"white"} colorScheme='blue' onClick={()=>dispatch({type:ADDTOCART,payload:ele})}>
-      -
-    </Button>
-    <Text color={"white"}>1</Text>
-    <Button variant='ghost' color={"white"} colorScheme='blue' onClick={()=>dispatch({type:ADDTOCART,payload:ele})}>
-      +
-    </Button>
-    </Flex>
+{
+  find()? <Button variant='ghost' colorScheme='blue' onClick={()=>dispatch({type:ADDTOCART,payload:{id:item.id,name:item.name,imageURL:item.imageURL,price:item.price,quantity:1,totalQuantity:item.quantity}})}>
+  Add to cart
+</Button>:<CartIncrementDecrement item={item} />
+}
+   
+    
   </ButtonGroup>
 </CardFooter>
 </Card>
