@@ -7,7 +7,7 @@ import MySpinner from "../Components/MySpinner";
 import SideFilterBar from "../Components/SideFilterBar";
 import { GETDATA, LOADING, SEARCH } from "../Context/Actiontype";
 import { AppContext } from "../Context/AppContext";
-import Products from "./Products";
+import Products from "../Components/Products";
 const ProductListing = () => {
   const [searchText, setSearchText] = useState("");
   const { dispatch, state } = useContext(AppContext);

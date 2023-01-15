@@ -1,7 +1,7 @@
 import {SimpleGrid} from "@chakra-ui/react";
 
 import { useContext } from "react";
-import ProductCard from "../Components/ProductCard";
+import ProductCard from "./ProductCard";
 import { AppContext } from "../Context/AppContext";
 const Products = () => {
   const { state } = useContext(AppContext);
