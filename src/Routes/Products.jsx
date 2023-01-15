@@ -1,23 +1,18 @@
-import { Box, Card, SimpleGrid,Flex } from '@chakra-ui/react';
+import {SimpleGrid} from "@chakra-ui/react";
 
-import { useContext } from 'react';
-import ProductCard from '../Components/ProductCard';
-import { AppContext } from '../Context/AppContext';
+import { useContext } from "react";
+import ProductCard from "../Components/ProductCard";
+import { AppContext } from "../Context/AppContext";
 const Products = () => {
-    const {state,dispatch}=useContext(AppContext)
-const {products,searchData,loading}=state
+  const { state } = useContext(AppContext);
+  const { filteredItem } = state;
   return (
-    <SimpleGrid columns={3} spacing={10} p="10">
+    <SimpleGrid columns={[1, 1, 2, 3, 3]} spacing={10} p="10">
+      {filteredItem?.map((ele, i) => {
+        return <ProductCard key={ele.id} {...ele} />;
+      })}
+    </SimpleGrid>
+  );
+};
 
-{
-  searchData?.map((ele,i)=>{
-    return <ProductCard key={ele.id} {...ele} />
-    
-  })
-}
-  
-  </SimpleGrid>
-  )
-}
-
-export default Products
+export default Products;
